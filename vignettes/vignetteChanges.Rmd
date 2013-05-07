@@ -1,0 +1,23 @@
+# Vignette Changes
+
+
+### Examples of running Bioconductor
+
+```{r runBioconductor, eval=FALSE}
+devRepo <- "https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/"
+relRepo <- "https://hedgehog.fhcrc.org/bioconductor/branches/RELEASE_2_12/madman/Rpacks/"
+
+usePWD <- "readonly:readonly"
+
+devPacks <- getBiocPackages(devRepo, usePWD)
+dev2 <- strtrim(devRepo, nchar(devRepo) - 1)
+devStatus <- checkBiocPackages(devPacks, dev2, usePWD)
+
+relPacks <- getBiocPackages(relRepo, usePWD)
+rel2 <- strtrim(relRepo, nchar(relRepo) - 1)
+relStatus <- checkBiocPackages(relPacks, rel2, usePWD)
+
+save(relStatus, devStatus, file="biocStatus_070513.RData")
+```
+
+

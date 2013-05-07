@@ -1,0 +1,4 @@
+export(checkBiocPackages)
+export(getBiocPackages)
+import(RCurl)
+import(XML)
