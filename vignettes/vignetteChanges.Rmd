@@ -4,6 +4,7 @@
 ### Examples of running Bioconductor
 
 ```{r runBioconductor, eval=FALSE}
+outPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconductor"
 devRepo <- "https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/"
 relRepo <- "https://hedgehog.fhcrc.org/bioconductor/branches/RELEASE_2_12/madman/Rpacks/"
 
@@ -17,7 +18,48 @@ relPacks <- getBiocPackages(relRepo, usePWD)
 rel2 <- strtrim(relRepo, nchar(relRepo) - 1)
 relStatus <- checkBiocPackages(relPacks, rel2, usePWD)
 
-save(relStatus, devStatus, file="biocStatus_070513.RData")
+filePart <- paste("biocStatus_", format(Sys.Date(), "%d.%m.%y"), sep="")
+outFile <- file.path(outPath, filePart)
+.sessionInfo <- sessionInfo()
+.timeDate <- Sys.time()
+save(relStatus, devStatus, .sessionInfo, .timeDate, file=outFile)
 ```
 
+### CRAN
 
+```{r runCran, eval=FALSE}
+outPath <- "~/Documents/projects/personal/RVignettePackageDownloads/cran/"
+setwd(outPath)
+load("allPackages.RData")
+options(repos="http://ftp.ussg.iu.edu/CRAN/")
+currPackages <- available.packages()
+
+allList <- rownames(allPackages)
+currList <- rownames(currPackages)
+
+currINall <- currList %in% allList
+allINcurr <- allList %in% currList
+currNew <- currList[!currINall]
+
+allVer <- allPackages[allList[allINcurr], "Version"]
+currVer <- currPackages[allList[allINcurr], "Version"]
+
+diffVer <- currVer != allVer
+diffPackages <- names(diffVer)[diffVer]
+
+saveDir <- format(Sys.Date(), "%d.%m.%y")
+dir.create(saveDir)
+fullPath <- file.path(outPath, saveDir)
+downloadedPackages <- download.packages(pkgs=diffPackages, destdir=fullPath)
+
+allPackages <- currPackages
+fileCurr <- file.path(fullPath, "downloadedPackages.RData")
+.sessionInfo <- sessionInfo()
+.timeDate <- Sys.time()
+
+save(downloadedPackages, currPackages, .sessionInfo, .timeDate, file=fileCurr)
+
+allPackages <- currPackages
+fileAll <- file.path(outPath, "allPackages.RData")
+save(allPackages, file=fileAll) 
+```
