@@ -1,7 +1,13 @@
 # Vignette Changes
 
+```{r loadReqPackages}
+require(RVignetteChanges)
+```
+
 
 ### Examples of running Bioconductor
+
+Below is the code used to scrape through the `Bioconductor` **SVN** repository to check for the presence of **markdown** vignettes. This was run weekly.
 
 ```{r runBioconductor, eval=FALSE}
 outPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconductor"
@@ -26,6 +32,8 @@ save(relStatus, devStatus, .sessionInfo, .timeDate, file=outFile)
 ```
 
 ### CRAN
+
+This is the code used to find new and updated packages on a `CRAN` mirror, and download them to a new directory based on the date. This was also run weekly
 
 ```{r runCran, eval=FALSE}
 outPath <- "~/Documents/projects/personal/RVignettePackageDownloads/cran/"
