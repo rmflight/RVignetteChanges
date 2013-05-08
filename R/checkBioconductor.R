@@ -27,7 +27,7 @@ checkBiocPackages <- function(packageList, baseURL, usePWD="readonly:readonly"){
   potLocs <- c("vignettes/", "inst/doc/")
     
   packageResults <- lapply(packageList, function(inPackage){
-    # try vignettes first, then "inst/doc/
+    # try vignettes first, then "inst/doc/"
     hasRmd <- FALSE
     outVersion <- NA
     vigLoc <- file.path(baseURL, inPackage, potLocs[1], fsep="/")

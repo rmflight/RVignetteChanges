@@ -1,4 +1,6 @@
 export(checkBiocPackages)
+export(checkTarVignette)
 export(getBiocPackages)
+export(getPackageFiles)
 import(RCurl)
 import(XML)
