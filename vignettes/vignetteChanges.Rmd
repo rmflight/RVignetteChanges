@@ -7,7 +7,7 @@ require(RVignetteChanges)
 
 ### Examples of running Bioconductor
 
-Below is the code used to scrape through the `Bioconductor` **SVN** repository to check for the presence of **markdown** vignettes. This was run weekly.
+Below is the code used to scrape through the `Bioconductor` **SVN** repository to check for the presence of vignettes. This was run weekly.
 
 ```{r runBioconductor, eval=FALSE}
 outPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconductor"
