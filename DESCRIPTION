@@ -4,7 +4,8 @@ Title: RVignetteChanges
 Authors@R: c(person("Robert", "Flight", role=c("aut", "cre"), email="rflight79@gmail.com"), person("Yihui", "Xie", role=c("aut", "cre"), email="xie@yihui.name"))
 Authors: Robert M Flight and Yihui Xie
 Maintainer: Robert M Flight <rflight79@gmail.com>
-Depends: R (>= 3.0.0), knitr
+Depends: R (>= 3.0.0)
+Suggests: knitr
 Description: Examining changes in R Vignettes with the introduction of alternative vignette engines since R 3.0
 License: CC-BY
 VignetteBuilder: knitr
