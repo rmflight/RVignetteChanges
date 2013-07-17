@@ -33,6 +33,9 @@ checkBiocPackages <- function(packageList, baseURL, usePWD="readonly:readonly"){
     hasRmd <- FALSE
     hasRnw <- FALSE
     outVersion <- NA
+    
+    print(inPackage)
+    
     vigLoc <- file.path(baseURL, inPackage, potLocs[1], fsep="/")
     vigFiles <- getFileListing(vigLoc, usePWD)
     
