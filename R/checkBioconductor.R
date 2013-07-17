@@ -106,3 +106,20 @@ checkBiocVersion <- function(inURL, usePWD="readonly:readonly"){
   }
   return(outVersion)
 }
+
+
+#' grabs the hasRmd and version from the bioconductor data
+#' 
+#' @param inList the list of results from checking bioconductor
+#' @export
+getBiocData <- function(inList){
+  rmdStatus <- sapply(inList, function(x){x$hasRmd})
+  rnwStatus <- sapply(inList, function(x){x$hasRnw})
+  packageVersion <- sapply(inList, function(x){x$version})
+  return(list(rmd=rmdStatus, rnw=rnwStatus, version=packageVersion, pkgs=names(rmdStatus)))
+}
+
+#' generate three matrices for the data over all the files
+#' 
+#' @param useDir which directory to read the files from
+#' @param minIndex what is the minimum index of the file in chronological order

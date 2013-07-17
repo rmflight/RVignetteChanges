@@ -71,3 +71,20 @@ allPackages <- currPackages
 fileAll <- file.path(outPath, "allPackages.RData")
 save(allPackages, file=fileAll) 
 ```
+
+
+## Analysis
+
+What we want to do is for each snapshot that we have, go in and find out if we have:
+
+  * vignette at all
+  * type of vignette
+  
+```{r examineData}
+biocPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconductor"
+biocFiles <- dir(biocPath, pattern="biocStatus")
+biocInfo <- file.info(file.path(biocPath, biocFiles))
+biocInfo <- biocInfo[order(biocInfo$mtime),] # sort in order by date
+
+
+```
