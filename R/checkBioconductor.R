@@ -112,7 +112,7 @@ checkBiocVersion <- function(inURL, usePWD="readonly:readonly"){
 #' 
 #' @param inList the list of results from checking bioconductor
 #' @export
-getBiocData <- function(inList){
+getBiocValues <- function(inList){
   rmdStatus <- sapply(inList, function(x){x$hasRmd})
   rnwStatus <- sapply(inList, function(x){x$hasRnw})
   packageVersion <- sapply(inList, function(x){x$version})
@@ -122,4 +122,9 @@ getBiocData <- function(inList){
 #' generate three matrices for the data over all the files
 #' 
 #' @param useDir which directory to read the files from
+#' @param filePattern the pattern to use to list the files
 #' @param minIndex what is the minimum index of the file in chronological order
+#' @export
+biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
+  
+}
