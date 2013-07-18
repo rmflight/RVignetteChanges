@@ -1,3 +1,4 @@
+export(add2Matrices)
 export(biocValues2Matrix)
 export(checkBiocPackages)
 export(checkTarVignette)

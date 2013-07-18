@@ -141,7 +141,20 @@ biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
   devVals <- getBiocValues(devStatus)
   devMatrix <- createMatrices(devVals, numCol=nFile)
   
+  relVals <- getBiocValues(relStatus)
+  relMatrix <- createMatrices(relVals, numCol=nFile)
   
+  for (iFile in seq(nFile-1, 1, -1)){
+    load(fileNames[iFile])
+    
+    devVals <- getBiocValues(devStatus)
+    devMatrix <- add2Matrices(devMatrix, devVals, rowNames="pkgs", useCol=iFile)
+    
+    relVals <- getBiocValues(relStatus)
+    relMatrix <- add2Matrices(relMatrix, relVals, rowNames="pkgs", useCol=iFile)
+  }
+  
+  return(list(dev=devMatrix, rel=relMatrix))
 }
 
 #' create matrices of the appropriate type for storing data
@@ -183,3 +196,37 @@ createMatrices <- function(inList, useVars=c("rmd", "rnw", "version"), rowNames=
 #' 
 #' @param inListMatrix the list of pre-existing matrices
 #' @param inList the list of data
+#' @param rowNames the list variable holding the row names in inList
+#' @export
+add2Matrices <- function(inListMatrix, inList, rowNames="pkgs", useCol){
+  addRows <- FALSE
+  
+  orgRows <- rownames(inListMatrix[[1]])
+  newRows <- inList[[rowNames]]
+  
+  rows2Add <- newRows[!(newRows %in% orgRows)]
+  
+  if (length(rows2Add) != 0){
+    addRows <- TRUE
+    nAdd <- length(rows2Add)
+  }
+  
+  
+  nVar <- length(inListMatrix)
+  varNames <- names(inListMatrix)
+  varTypes <- sapply(inListMatrix, function(x){class(x[1])})
+  
+  
+  for (iVar in 1:nVar){
+    if (addRows){
+      if (varTypes == "logical"){
+        addMat <- matrix(FALSE, nAdd, ncol(inListMatrix[[iVar]]))
+      } else if (varTypes == "character"){
+        addMat <- matrix("NA", nAdd, ncol(inListMatrix[[iVar]]))
+      }
+      inListMatrix[[iVar]] <- rbind(inListMatrix[[iVar]], addMat)
+    }
+    inListMatrix[[iVar]][newRows, useCol] <- inList[[iVar]]
+  }
+  return(inListMatrix)
+}
