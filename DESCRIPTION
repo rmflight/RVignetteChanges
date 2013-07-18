@@ -1,5 +1,5 @@
 Package: RVignetteChanges
-Version: 0.0.6
+Version: 0.0.7
 Title: RVignetteChanges
 Authors@R: c(person("Robert", "Flight", role=c("aut", "cre"), email="rflight79@gmail.com"), person("Yihui", "Xie", role=c("aut", "cre"), email="xie@yihui.name"))
 Authors: Robert M Flight and Yihui Xie

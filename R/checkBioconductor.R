@@ -141,7 +141,7 @@ biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
   devVals <- getBiocValues(devStatus)
   devMatrix <- createMatrices(devVals, numCol=nFile)
   
-  for
+  
 }
 
 #' create matrices of the appropriate type for storing data
@@ -150,19 +150,20 @@ biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
 #' 
 #' @param inList the list to transform to matrices
 #' @param useVars which list variables to make matrices
-#' @param varType what type of matrix should be generated for each variable
 #' @param rowNames which list variable has the rownames for the matrix
 #' @param numCol the number of columns to pad the matrix with
 #' @export
-createMatrices <- function(inList, useVars=c("rmd", "rnw", "version"), varType=c("logical", "logical", "character"), rowNames="pkgs", numCol=10){
+createMatrices <- function(inList, useVars=c("rmd", "rnw", "version"), rowNames="pkgs", numCol=10){
   numRow <- length(inList[[rowNames]])
   nVar <- length(useVars)
   outMatrices <- list(nVar)
   
+  varTypes <- sapply(inList[useVars], class)
+  
   for (iVar in 1:length(useVars)){
-    if (varType[iVar] == "logical"){
+    if (varTypes[iVar] == "logical"){
       tmpMat <- matrix(FALSE, numRow, numCol)
-    } else if (varType[iVar] == "character"){
+    } else if (varTypes[iVar] == "character"){
       tmpMat <- matrix("NA", numRow, numCol)
     }
     rownames(tmpMat) <- inList[[rowNames]]
