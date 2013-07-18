@@ -155,7 +155,7 @@ biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
   }
   
   queryDates <- fileInfo$ctime
-  return(list(dev=devMatrix, rel=relMatrix), queries=queryDates)
+  return(list(dev=devMatrix, rel=relMatrix, queries=queryDates))
 }
 
 #' create matrices of the appropriate type for storing data

@@ -88,8 +88,11 @@ biocPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconducto
 filePattern <- "biocStatus"
 
 biocMatrices <- biocValues2Matrix(biocPath, filePattern)
-biocInfo <- file.info(file.path(biocPath, biocFiles))
-biocInfo <- biocInfo[order(biocInfo$mtime),] # sort in order by date
+biocDev <- biocMatrices$dev
+biocRelease <- biocMatrices$rel
+biocQueries <- biocMatrices$queries
 
-
+.sessionInfo <- sessionInfo()
+.timeDate <- Sys.time()
+save(biocDev, biocRelease, biocQueries, .sessionInfo, .timeDate, file="inst/data/bioconductorData.RData")
 ```
