@@ -126,5 +126,59 @@ getBiocValues <- function(inList){
 #' @param minIndex what is the minimum index of the file in chronological order
 #' @export
 biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
+  fileList <- dir(useDir, filePattern)
+  fileInfo <- file.info(file.path(useDir, fileList))
+  fileInfo <- fileInfo[order(fileInfo$ctime),]
   
+  fileInfo <- fileInfo[seq(minIndex, nrow(fileInfo)),]
+  
+  nFile <- nrow(fileInfo)
+  
+  fileNames <- rownames(fileInfo)
+  
+  load(fileNames[nFile])
+  
+  devVals <- getBiocValues(devStatus)
+  devMatrix <- createMatrices(devVals, numCol=nFile)
+  
+  for
 }
+
+#' create matrices of the appropriate type for storing data
+#' 
+#' We want matrices where rows are packages, and columns are dates for each variable we are storing. This does it all in one go. Assumes that each list variable is a single vector
+#' 
+#' @param inList the list to transform to matrices
+#' @param useVars which list variables to make matrices
+#' @param varType what type of matrix should be generated for each variable
+#' @param rowNames which list variable has the rownames for the matrix
+#' @param numCol the number of columns to pad the matrix with
+#' @export
+createMatrices <- function(inList, useVars=c("rmd", "rnw", "version"), varType=c("logical", "logical", "character"), rowNames="pkgs", numCol=10){
+  numRow <- length(inList[[rowNames]])
+  nVar <- length(useVars)
+  outMatrices <- list(nVar)
+  
+  for (iVar in 1:length(useVars)){
+    if (varType[iVar] == "logical"){
+      tmpMat <- matrix(FALSE, numRow, numCol)
+    } else if (varType[iVar] == "character"){
+      tmpMat <- matrix("NA", numRow, numCol)
+    }
+    rownames(tmpMat) <- inList[[rowNames]]
+    
+    tmpMat[inList[[rowNames]],numCol] <- inList[[iVar]]
+    outMatrices[[iVar]] <- tmpMat
+        
+  }
+  
+  names(outMatrices) <- useVars
+  return(outMatrices)
+}
+
+#' add to pre-existing list of matrices
+#' 
+#' As we add more results, we want to add data to each one, with the possibility that there are packages we didn't have already
+#' 
+#' @param inListMatrix the list of pre-existing matrices
+#' @param inList the list of data
