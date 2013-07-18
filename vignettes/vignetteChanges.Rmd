@@ -19,6 +19,9 @@ usePWD <- "readonly:readonly"
 devPacks <- getBiocPackages(devRepo, usePWD)
 dev2 <- strtrim(devRepo, nchar(devRepo) - 1)
 devStatus <- checkBiocPackages(devPacks, dev2, usePWD)
+.sessionInfo <- sessionInfo()
+.timeDate <- Sys.time()
+save(devStatus, .sessionInfo, .timeDate, file=outFile)
 
 relPacks <- getBiocPackages(relRepo, usePWD)
 rel2 <- strtrim(relRepo, nchar(relRepo) - 1)
@@ -82,7 +85,9 @@ What we want to do is for each snapshot that we have, go in and find out if we h
   
 ```{r examineData}
 biocPath <- "~/Documents/projects/personal/RVignettePackageDownloads/bioconductor"
-biocFiles <- dir(biocPath, pattern="biocStatus")
+filePattern <- "biocStatus"
+
+biocMatrices <- biocValues2Matrix(biocPath, filePattern)
 biocInfo <- file.info(file.path(biocPath, biocFiles))
 biocInfo <- biocInfo[order(biocInfo$mtime),] # sort in order by date
 

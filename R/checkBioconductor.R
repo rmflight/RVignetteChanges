@@ -154,7 +154,8 @@ biocValues2Matrix <- function(useDir, filePattern, minIndex=2){
     relMatrix <- add2Matrices(relMatrix, relVals, rowNames="pkgs", useCol=iFile)
   }
   
-  return(list(dev=devMatrix, rel=relMatrix))
+  queryDates <- fileInfo$ctime
+  return(list(dev=devMatrix, rel=relMatrix), queries=queryDates)
 }
 
 #' create matrices of the appropriate type for storing data
@@ -206,11 +207,13 @@ add2Matrices <- function(inListMatrix, inList, rowNames="pkgs", useCol){
   
   rows2Add <- newRows[!(newRows %in% orgRows)]
   
-  if (length(rows2Add) != 0){
+  if (length(rows2Add) > 0){
     addRows <- TRUE
     nAdd <- length(rows2Add)
   }
   
+#   print(rows2Add)
+#   browser(expr=TRUE)
   
   nVar <- length(inListMatrix)
   varNames <- names(inListMatrix)
@@ -219,12 +222,14 @@ add2Matrices <- function(inListMatrix, inList, rowNames="pkgs", useCol){
   
   for (iVar in 1:nVar){
     if (addRows){
-      if (varTypes == "logical"){
+      if (varTypes[iVar] == "logical"){
         addMat <- matrix(FALSE, nAdd, ncol(inListMatrix[[iVar]]))
-      } else if (varTypes == "character"){
+      } else if (varTypes[iVar] == "character"){
         addMat <- matrix("NA", nAdd, ncol(inListMatrix[[iVar]]))
       }
+      rownames(addMat) <- rows2Add
       inListMatrix[[iVar]] <- rbind(inListMatrix[[iVar]], addMat)
+      # print(tail(rownames(inListMatrix[[iVar]])))
     }
     inListMatrix[[iVar]][newRows, useCol] <- inList[[iVar]]
   }
