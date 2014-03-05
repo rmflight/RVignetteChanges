@@ -5,6 +5,14 @@ require(RVignetteChanges)
 ```
 
 
+### Bioconductor using SVN
+
+`Bioconductor` has an SVN repo that should be consistent for the development branch, i.e. the **trunk** branch. Therefore, we should be able to pull down the SVN, and use a log command to get an index of the files that are changed in the past year.
+
+```
+svn log https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/ --username readonly --password readonly -qv -r {2010-11-01}:{2011-05-04} > log.txt
+```
+
 ### Examples of running Bioconductor
 
 Below is the code used to scrape through the `Bioconductor` **SVN** repository to check for the presence of vignettes. This was run weekly.
